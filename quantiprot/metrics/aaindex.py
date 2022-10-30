@@ -37,6 +37,8 @@ Functions:
         hydrophobicity scale.
 """
 
+from builtins import zip
+from builtins import range
 import os
 import re
 
@@ -92,7 +94,7 @@ def _parse_aaindex(index_id, raw_text_lines, default=None):
                             line = raw_text_lines[i:i+2]
                             num = [l.split() for l in line]
                             index = [float(j) for l in num for j in l]
-                            mapping = dict(zip(names, index))
+                            mapping = dict(list(zip(names, index)))
                     i += 1
                     line = raw_text_lines[i]
 

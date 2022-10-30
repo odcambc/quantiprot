@@ -1,3 +1,7 @@
+from __future__ import division
+from __future__ import print_function
+from builtins import range
+from past.utils import old_div
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
@@ -27,7 +31,7 @@ fs_aa.add(pattern_count, pattern='VT')
 result_seq = fs_aa(alphasyn_seq)
 
 for seq in result_seq[:3]:
-    print seq
+    print(seq)
 
 # ...and something much more subtle:
 # Map a sequence to the hydrophaty scale, and search for the pattern 0.0 - 2.0
@@ -39,23 +43,23 @@ fs_hp.add(Feature(get_aa2hydropathy()).then(pattern_match, pattern=[0.0, 2.0],
 result_seq2 = fs_hp(alphasyn_seq)
 
 for seq in result_seq2[:2]:
-    print seq
+    print(seq)
 
 # Calculate bigram frequencies in 'alphasyn_seq':
 result_freq = ngram_count(alphasyn_seq, n=2)
-print result_freq
+print(result_freq)
 
 # Fit Zipf's law for a trigram distribution in 'amyload_pos_seq':
 result_fit = zipf_law_fit(amyload_pos_seq, n=3, verbose=True)
 
 # Calculate the empirical rank-frequency plot:
 counts = sorted(result_fit["ngram_counts"], reverse=True)
-ranks = range(1, len(counts)+1)
+ranks = list(range(1, len(counts)+1))
 
 # Calculate the Zipf's law-based approximation:
 slope = result_fit["slope"]
 harmonic_num = sum([rank**-slope for rank in ranks])
-fitted_counts = [(rank**-slope) / harmonic_num * sum(counts) for rank in ranks]
+fitted_counts = [old_div((rank**-slope), harmonic_num) * sum(counts) for rank in ranks]
 
 # Generate the rank-frequency plot:
 plt.plot(ranks, counts, 'k', label="empirical")

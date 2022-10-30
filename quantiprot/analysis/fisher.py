@@ -29,7 +29,11 @@ Functions:
                      distribution of sequences in comparison to global
                      distribution in a space defined by selected features.
 """
+from __future__ import division
 
+from builtins import str
+from builtins import range
+from past.utils import old_div
 from math import log10, floor
 
 import numpy as np
@@ -166,8 +170,8 @@ def local_fisher_2d(set1, set2, features=None, \
         frame_range = np.concatenate((np.minimum(mat1.min(0), mat2.min(0)),\
                                       np.maximum(mat1.max(0), mat2.max(0))))
 
-        margin_x = (frame_range[1, 0] - frame_range[0, 0])/w_per_frame[0]
-        margin_y = (frame_range[1, 1] - frame_range[0, 1])/w_per_frame[1]
+        margin_x = old_div((frame_range[1, 0] - frame_range[0, 0]),w_per_frame[0])
+        margin_y = old_div((frame_range[1, 1] - frame_range[0, 1]),w_per_frame[1])
 
         frame_range[0, 0] -= margin_x
         frame_range[1, 0] += margin_x
@@ -207,11 +211,11 @@ def local_fisher_2d(set1, set2, features=None, \
 
     #Calculate window centers
     for start_x in range(0, w_number[0]):
-        window_center_x[start_x] = (bin_ranges[0][start_x]+ \
-                                    bin_ranges[0][start_x+w_size[0]])/2
+        window_center_x[start_x] = old_div((bin_ranges[0][start_x]+ \
+                                    bin_ranges[0][start_x+w_size[0]]),2)
     for start_y in range(0, w_number[1]):
-        window_center_y[start_y] = (bin_ranges[1][start_y]+ \
-                                    bin_ranges[1][start_y+w_size[1]])/2
+        window_center_y[start_y] = old_div((bin_ranges[1][start_y]+ \
+                                    bin_ranges[1][start_y+w_size[1]]),2)
 
     #Scan the feature space with a step of 1 cell.
     for start_x in range(0, w_number[0]):
@@ -268,7 +272,7 @@ def _plot_local_fisher_2d(fisher_res, xlabel="feat_1", ylabel="feat_2",
             elif fisher_c2[pos_x][pos_y] == 0:
                 fisher_or[pos_x][pos_y] = -np.inf
             elif fisher_or[pos_x][pos_y] < 1:
-                fisher_or[pos_x][pos_y] = -1.0/fisher_or[pos_x][pos_y]
+                fisher_or[pos_x][pos_y] = old_div(-1.0,fisher_or[pos_x][pos_y])
 
     vmax_abs = np.nanmax(np.abs([x for x in np.array(fisher_or).flatten()
                                  if x > -np.inf and x < np.inf]))

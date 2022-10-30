@@ -28,6 +28,9 @@ quantitative properties.
 
 
 from __future__ import print_function
+from __future__ import division
+from builtins import range
+from past.utils import old_div
 import os
 import sys
 import argparse
@@ -210,8 +213,8 @@ conv_seq2 = fs(input_seq2)
 
 # Do local Fisher:
 result = local_fisher_2d(conv_seq1, conv_seq2,
-                         windows_per_frame=(int(args.bins1)/int(args.overlap1),
-                                            int(args.bins2)/int(args.overlap2)),
+                         windows_per_frame=(old_div(int(args.bins1),int(args.overlap1)),
+                                            old_div(int(args.bins2),int(args.overlap2))),
                          overlap_factor=(int(args.overlap1), int(args.overlap2))
                         )
 

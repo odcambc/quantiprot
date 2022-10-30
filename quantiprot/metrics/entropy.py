@@ -25,6 +25,9 @@ This module calculates the entropy of data.
 Functions:
     entropy: Calculate entropy of the data.
 """
+from __future__ import division
+from builtins import range
+from past.utils import old_div
 from math import log
 
 
@@ -45,5 +48,5 @@ def entropy(data):
 
     res = 0.0
     for i in freqs:
-        res += (freqs[i] / suma) * log((freqs[i] / suma), 2)
+        res += (old_div(freqs[i], suma)) * log((old_div(freqs[i], suma)), 2)
     return -res

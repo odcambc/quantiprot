@@ -34,7 +34,12 @@ Functions:
     pattern_match: find matches of a given pattern.
 
 """
+from __future__ import division
 
+from builtins import str
+from builtins import range
+from builtins import object
+from past.utils import old_div
 import itertools
 import copy
 
@@ -187,7 +192,7 @@ def pattern_count(data, **params):
             counts += 1
 
     return counts if not normalized \
-                  else 1.0 * counts / (len(data) - patlen + 1)
+                  else old_div(1.0 * counts, (len(data) - patlen + 1))
 
 
 def pattern_match(data, **params):

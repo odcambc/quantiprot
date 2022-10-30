@@ -31,6 +31,9 @@ Functions:
     simplify: reduce the mapping.
 """
 
+from builtins import zip
+from builtins import range
+from builtins import object
 import copy
 import numpy as np
 
@@ -163,7 +166,7 @@ class Mapping(object):
             raise ValueError("Specify either 'thresholds' or 'centroids'" \
                              " or number of classes 'k'!")
 
-        mapping_values = np.transpose(np.matrix(self.mapping.values()))
+        mapping_values = np.transpose(np.matrix(list(self.mapping.values())))
 
         if thresholds is not None:
             classes = np.sum(np.matrix(mapping_values > np.sort(thresholds)),
@@ -220,7 +223,7 @@ class Mapping(object):
             mapping_labels = np.array(classes+label_from).flatten().tolist()
             mapping_default = None
 
-        self.mapping = dict(zip(self.mapping.keys(), mapping_labels))
+        self.mapping = dict(list(zip(list(self.mapping.keys()), mapping_labels)))
         self.default = default if default is not None else mapping_default
 
         return self

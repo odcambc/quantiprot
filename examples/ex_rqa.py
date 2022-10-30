@@ -1,3 +1,5 @@
+from __future__ import print_function
+from builtins import range
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
@@ -22,7 +24,7 @@ mj_fs.add(get_aa2mj())
 rqa_fs = RQAFeatureSet("rqa", features=['recurrence','determinism'],
                        window=100, metric='taxi', radius=4, dim=4, det_len=8)
 rqa_fs.then_all(average, window=10)
-print rqa_fs
+print(rqa_fs)
 
 # From fasta to MJ hydrophobicity to RQA
 hete1_rqa_seq = rqa_fs(mj_fs(hete1_seq))
@@ -50,4 +52,4 @@ repeats_pos_fs.then_all(ind_if_gt, threshold=0.5)
 hete1_repeats_pos_seq= repeats_pos_fs(mj_fs(hete1_seq))
 
 for seq in hete1_repeats_pos_seq:
-    print min(seq.data), max(seq.data)+99
+    print(min(seq.data), max(seq.data)+99)

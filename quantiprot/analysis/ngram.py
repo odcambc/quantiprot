@@ -30,6 +30,8 @@ Functions:
     ngram_count: count n-grams in a sequence set.
     zipf_law_fit: fits the Zipf's law to n-grams distribution.
 """
+from __future__ import print_function
+from builtins import str
 import numpy as np
 
 from powerlaw import Fit as powerlaw_fit
@@ -104,8 +106,8 @@ def zipf_law_fit(seq_set, n=2, alphabet=None,
         'p_value' (float): the goodness-of-fit p-value.
     """
 
-    ngram_counts = ngram_count(seq_set, n=n, alphabet=alphabet,
-                               return_all=False, **params).values()
+    ngram_counts = list(ngram_count(seq_set, n=n, alphabet=alphabet,
+                               return_all=False, **params).values())
 
     numpy_err_params = np.geterr()
     np.seterr(divide='ignore', invalid='ignore') # otherwise a RuntimeWarning

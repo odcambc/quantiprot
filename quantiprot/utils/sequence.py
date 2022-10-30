@@ -36,6 +36,9 @@ Functions:
         sequences of selected feature(s).
 """
 
+from builtins import str
+from builtins import range
+from builtins import object
 from warnings import warn
 
 import itertools
@@ -262,7 +265,7 @@ class SequenceSet(object):
 
         if positions is None:
             max_len = max([len(seq) for seq in self.sequence_list])
-            positions = range(max_len)
+            positions = list(range(max_len))
 
         res_columns = []
 
