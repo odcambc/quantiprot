@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
@@ -28,24 +29,24 @@ fs.add(volume_levels_feat)
 
 # And use it to quantify protein sequence(s):
 result_seq = fs(alphasyn_seq)
-print result_seq
+print(result_seq)
 for seq in result_seq:
-    print seq
+    print(seq)
 
 # Plain functions operating on list also work:
-print Feature(len)(alphasyn_seq[0])
+print(Feature(len)(alphasyn_seq[0]))
 
 # Calculate the hydropathy profile smoothed over the window of length 3
 hydropathy_win3_feat = Feature(get_aa2hydropathy()).then(average, window=3)
-print hydropathy_win3_feat(alphasyn_seq[0])
+print(hydropathy_win3_feat(alphasyn_seq[0]))
 
 # Buggy version of the code above:
 hydropathy_feat = Feature(get_aa2hydropathy())
 hydropathy_win3_feat = hydropathy_feat.then(average, window=3)
-print hydropathy_feat(alphasyn_seq[0])
-print hydropathy_win3_feat(alphasyn_seq[0])
+print(hydropathy_feat(alphasyn_seq[0]))
+print(hydropathy_win3_feat(alphasyn_seq[0]))
 
 # Compact multiple single-value features
 compact_seq = compact(result_seq)
 for seq in compact_seq:
-    print seq
+    print(seq)

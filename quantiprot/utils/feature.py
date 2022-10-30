@@ -28,6 +28,8 @@ Classes:
     FeatureSet: manage a set of features.
 """
 
+from builtins import range
+from builtins import object
 import copy
 
 from quantiprot.utils.sequence import Sequence, SequenceSet

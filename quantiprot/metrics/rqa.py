@@ -37,7 +37,11 @@ Functions:
     palindromism_ratio: calculate ratio of palindromism and recurrence of the
         data.
 """
+from __future__ import division
 
+from builtins import range
+from builtins import object
+from past.utils import old_div
 import copy
 
 import numpy as np
@@ -154,9 +158,9 @@ def recurrence(data, _rec_table=None, **params):
     if full:
         rec_sum *= 2
         rec_sum -= np.sum(rec_table.diagonal())
-        rec_rate = 1.0 * rec_sum / (data_len**2)
+        rec_rate = old_div(1.0 * rec_sum, (data_len**2))
     else:
-        rec_rate = 2.0 * rec_sum / (data_len**2-data_len)
+        rec_rate = old_div(2.0 * rec_sum, (data_len**2-data_len))
 
     return rec_rate.tolist()
 
@@ -217,7 +221,7 @@ def determinism(data, _rec_table=None, **params):
         rec_sum *= 2
         rec_sum -= np.sum(rec_table.diagonal())
 
-    det = det_sum / rec_sum
+    det = old_div(det_sum, rec_sum)
 
     return det.tolist()
 
@@ -249,8 +253,8 @@ def ratio_determinism(data, _rec_table=None, **params):
     rec_table = _recurrence_common(data, **params) \
                 if _rec_table is None else _rec_table
 
-    ratio_det = np.array(determinism(data, _rec_table=rec_table, **params)) / \
-           np.array(recurrence(data, _rec_table=rec_table, **params))
+    ratio_det = old_div(np.array(determinism(data, _rec_table=rec_table, **params)), \
+           np.array(recurrence(data, _rec_table=rec_table, **params)))
 
     return ratio_det.tolist()
 
@@ -317,7 +321,7 @@ def palindromism(data, _rec_table=None, **params):
     pal_sum = np.sum(diagonals[np.where(diagonals >= pal_len)])
     rec_sum = np.sum(rec_table)
 
-    pal = pal_sum / rec_sum
+    pal = old_div(pal_sum, rec_sum)
 
     return pal.tolist()
 
@@ -362,8 +366,8 @@ def ratio_palindromism(data, _rec_table=None, **params):
     rec_table = _recurrence_common(data, **params) \
                 if _rec_table is None else _rec_table
 
-    ratio_pal = np.array(palindromism(data, _rec_table=rec_table, **params)) / \
-           np.array(recurrence(data, _rec_table=rec_table, **params))
+    ratio_pal = old_div(np.array(palindromism(data, _rec_table=rec_table, **params)), \
+           np.array(recurrence(data, _rec_table=rec_table, **params)))
 
     return ratio_pal.tolist()
 
@@ -489,13 +493,13 @@ class RQAFeatureSet(object):
 
             if 'ratio_determinism' in self.features:
                 rqa_output['ratio_determinism'] = \
-                    (np.array(rqa_output['determinism']) / \
-                     np.array(rqa_output['recurrence'])).tolist()
+                    (old_div(np.array(rqa_output['determinism']), \
+                     np.array(rqa_output['recurrence']))).tolist()
 
             if 'ratio_palindromism' in self.features:
                 rqa_output['ratio_palindromism'] = \
-                    (np.array(rqa_output['palindromism']) / \
-                     np.array(rqa_output['recurrence'])).tolist()
+                    (old_div(np.array(rqa_output['palindromism']), \
+                     np.array(rqa_output['recurrence']))).tolist()
 
             for feat in self.features:
 

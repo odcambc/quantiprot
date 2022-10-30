@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
@@ -22,4 +23,4 @@ res_seq = fs(seq)
 
 # Export average polarities
 res = res_seq.columns()
-print res
+print(res)

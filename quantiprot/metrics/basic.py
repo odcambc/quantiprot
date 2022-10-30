@@ -34,7 +34,9 @@ Functions:
     atom_freq: calculate frequency of occurrencies of a given atomic element
                in the data.
 """
+from __future__ import division
 
+from past.utils import old_div
 def identity(data):
     """
     Return the data itself.
@@ -75,7 +77,7 @@ def average(data):
         data (list): values.
     Returns the average of values of the data.
     """
-    return 1.0*sum(data)/len(data)
+    return old_div(1.0*sum(data),len(data))
 
 
 def average_absolute(data):
@@ -106,7 +108,7 @@ def uniq_average(data):
         data (list): values.
     Returns the number of unique elements per length in the data.
     """
-    return 1.0*uniq_count(data)/len(data)
+    return old_div(1.0*uniq_count(data),len(data))
 
 
 def atom_count(data, **params):
@@ -134,6 +136,6 @@ def atom_freq(data, **params):
 
     Returns the frequency of the atom in the data.
     """
-    return 1.0*atom_count(data, **params)/len(data)
+    return old_div(1.0*atom_count(data, **params),len(data))
 
 

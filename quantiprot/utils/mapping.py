@@ -31,6 +31,9 @@ Functions:
     simplify: reduce the mapping.
 """
 
+from builtins import zip
+from builtins import range
+from builtins import object
 import copy
 import numpy as np
 
@@ -163,7 +166,7 @@ class Mapping(object):
             raise ValueError("Specify either 'thresholds' or 'centroids'" \
                              " or number of classes 'k'!")
 
-        mapping_values = np.transpose(np.matrix(self.mapping.values()))
+        mapping_values = np.transpose(np.matrix(list(self.mapping.values())))
 
         if thresholds is not None:
             classes = np.sum(np.matrix(mapping_values > np.sort(thresholds)),
@@ -220,7 +223,7 @@ class Mapping(object):
             mapping_labels = np.array(classes+label_from).flatten().tolist()
             mapping_default = None
 
-        self.mapping = dict(zip(self.mapping.keys(), mapping_labels))
+        self.mapping = dict(list(zip(list(self.mapping.keys()), mapping_labels)))
         self.default = default if default is not None else mapping_default
 
         return self
@@ -255,10 +258,11 @@ def _kmeans1d(k, iters, data):
     Then, if 'iters'>0, the standard k-means procedure is performed 'iters'
     times or until convergence.
     """
-
     for opt_k in range(1, len(np.unique(np.array(data)))+1):
         percs = np.linspace(0, 100, opt_k+1)+100.0/(2.0*opt_k)
-        centroids = np.unique(np.array(np.percentile(data, percs[:-1])))
+        data_array = np.squeeze(np.asarray(data))
+        centroids = np.unique(np.array(np.percentile(data_array, percs[:-1],
+                                                     method='linear')))
         classes = np.argmin(np.abs(centroids-data), axis=1)
         if len(np.unique(np.array(classes))) == k:
             break
@@ -266,7 +270,7 @@ def _kmeans1d(k, iters, data):
     centroids_old = centroids
 
     for _ in range(1, iters):
-        centroids = np.array([np.mean(np.array(data[classes == c])) \
+        centroids = np.array([np.mean(np.array(data[classes == c]))
                               for c in np.unique(np.array(classes))])
 
         if np.sum(np.abs(centroids-centroids_old)) == 0:
