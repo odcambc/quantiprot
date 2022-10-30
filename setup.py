@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(
   name = 'quantiprot',
-  version = '0.2.4',
+  version = '0.3.0',
   packages = ['quantiprot','quantiprot.utils','quantiprot.metrics','quantiprot.analysis'],
   package_data = { 'quantiprot.metrics': [ 'data/aaindex1'] },
   description = 'Quantitative characteristics of protein sequences',
