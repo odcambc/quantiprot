@@ -1,5 +1,5 @@
 # Quantiprot
-##### current version: 0.2.4
+##### current version: 0.3.0, forked for python 3 compatibility
 
 The Quantiprot package is a python package designed to facilitate quantitative analysis of protein sequences.
 
