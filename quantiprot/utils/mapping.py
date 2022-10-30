@@ -258,10 +258,11 @@ def _kmeans1d(k, iters, data):
     Then, if 'iters'>0, the standard k-means procedure is performed 'iters'
     times or until convergence.
     """
-
     for opt_k in range(1, len(np.unique(np.array(data)))+1):
         percs = np.linspace(0, 100, opt_k+1)+100.0/(2.0*opt_k)
-        centroids = np.unique(np.array(np.percentile(data, percs[:-1])))
+        data_array = np.squeeze(np.asarray(data))
+        centroids = np.unique(np.array(np.percentile(data_array, percs[:-1],
+                                                     method='linear')))
         classes = np.argmin(np.abs(centroids-data), axis=1)
         if len(np.unique(np.array(classes))) == k:
             break
@@ -269,7 +270,7 @@ def _kmeans1d(k, iters, data):
     centroids_old = centroids
 
     for _ in range(1, iters):
-        centroids = np.array([np.mean(np.array(data[classes == c])) \
+        centroids = np.array([np.mean(np.array(data[classes == c]))
                               for c in np.unique(np.array(classes))])
 
         if np.sum(np.abs(centroids-centroids_old)) == 0:
